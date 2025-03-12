@@ -53,13 +53,5 @@
     "testPathIgnorePatterns": [
       "e2e-tests"
     ]
-  },
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "cypress"
-    ],
-    "onlyBuiltDependencies": [
-      "cypress"
-    ]
   }
 }
