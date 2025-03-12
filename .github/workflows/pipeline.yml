@@ -28,12 +28,12 @@ jobs:
       - name: Check style
         run: pnpm eslint
       - name: Run tests
-        run: pnpm test
+        run: pnpm --filter client test
 
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
-        start: pnpm start
         with:
+          start: pnpm start
           command: pnpm --filter client test:e2e
       
       - name: Trigger deployment
