@@ -24,13 +24,16 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm install
-          pnpm --filter client install
+          cd client
+          pnpm install
       - name: Build client
         run: pnpm build
       - name: Check style
         run: pnpm eslint
       - name: Run tests
-        run: pnpm --filter client test
+        run: |
+          cd client
+          pnpm test
 
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
@@ -51,6 +54,13 @@ jobs:
           description: 'Build failed! Please check the logs.'
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
   
+      - name: Discord Webhook Notify (Build Success)
+        if: ${{ success() && github.event_name == 'push' && contains(github.event.head_commit.message, '#skip') }}
+        uses: sarisia/actions-status-discord@v1
+        with:
+          description: 'Build succesfull! 🚀'
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+      
       - name: Discord Webhook Notify (Deployment Success)
         if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
         uses: sarisia/actions-status-discord@v1
