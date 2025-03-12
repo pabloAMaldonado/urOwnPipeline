@@ -1,0 +1,39 @@
+name: Health checker
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  periodic_health_check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v4
+        with:
+            url: 'https://mellow-flow-production.up.railway.app/'
+            follow-redirect: false
+            max-attempts: 3
+            retry-delay: 5s
+      - name: Send success notification
+        if: ${{ success() }}
+        uses: stegzilla/discord-notify@v2
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          title: Health check
+          message: |
+            "Health check passed"
+            **Event:** ${{ github.event_name }}
+            **Repo:** ${{ github.event.repository.full_name }}
+            
+      - name: Send failure notification
+        if: ${{ failure() }}
+        uses: stegzilla/discord-notify@v2
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          title: Health check
+          message: |
+            "Health check failed"
+             **Event:** ${{ github.event_name }}
+            **Repo:** ${{ github.event.repository.full_name }}
+            

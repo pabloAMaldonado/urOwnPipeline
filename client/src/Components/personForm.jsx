@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import useConnectDatabase from './connectDatabase'
-import useUpdateNumber from './updateNumber'
+import UseUpdateNumber from './updateNumber'
 import Notification from './notification'
 
 const baseUrl = 'api/persons'
@@ -16,7 +16,7 @@ const handleInputChange = ({ elemento, setElemento }) => (event) => {
 
 const updateHandler = async (array, name, newNumber, setDb, setMessage, setStatus) => {
   try {
-    const response = await useUpdateNumber(array, name, newNumber, setDb)
+    const response = await UseUpdateNumber(array, name, newNumber, setDb)
 
     if (response.status === 200) {
       setMessage(`${name} has been successfully updated`)
@@ -34,14 +34,14 @@ const updateHandler = async (array, name, newNumber, setDb, setMessage, setStatu
   
 }
 
-const handleSubmit = ({ elemento, setElemento, persons, setPersons, setDb, setMessage, setStatus }) => async (event) => {
+const handleSubmit = ({ elemento, setElemento, persons, setDb, setMessage, setStatus }) => async (event) => {
     event.preventDefault()
 
     if (elemento.name === '') return alert('Debes ingresar un nombre')
-    if (elemento.number === '') return alert('Debes ingresar un número')
-    if (persons.some(person => person.name === elemento.name)) {
+    if (elemento.number === '') return alert('Debes ingresar un numero')
+    if (Array.isArray(persons) && persons.some(person => person.name === elemento.name)) {
       const update = await updateHandler(persons, elemento.name, elemento.number, setDb, setMessage, setStatus)
-      return
+      return update.data
     }
 
     const url = baseUrl
@@ -103,6 +103,7 @@ const PersonForm = ({ elemento, setElemento, persons, setPersons, setDb }) => {
           <input
             type="text"
             name='name'
+            placeholder='Name'
             value={elemento.name}
             onChange={handleInputChange({ elemento, setElemento })}
           />
@@ -111,13 +112,14 @@ const PersonForm = ({ elemento, setElemento, persons, setPersons, setDb }) => {
           <input
             type="text"
             name='number'
+            placeholder='Number'
             value={elemento.number}
             onChange={handleInputChange({ elemento, setElemento })}
           />
         </div>
 
         <div>
-          <button type="submit">add</button>
+          <button type="submit">Add Phone</button>
         </div>
         <Notification message={message} status={status} />
     </form>

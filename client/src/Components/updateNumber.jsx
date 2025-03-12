@@ -1,5 +1,4 @@
 
-import React from 'react'
 import axios from 'axios'
 
 const baseUrl = 'api/persons'
@@ -10,7 +9,7 @@ const fetchUpdatedDb = async () => {
     return response.data
   }
 
-const useUpdateNumber = async (array, name, newNumber, setDb) => {
+const UseUpdateNumber = async (array, name, newNumber, setDb) => {
     const personUpdate = array.find(element => element.name === name)
 
     if (!window.confirm('Are you sure you want to update the number?')) return
@@ -30,4 +29,4 @@ const useUpdateNumber = async (array, name, newNumber, setDb) => {
     return response
 }
 
-export default useUpdateNumber
+export default UseUpdateNumber

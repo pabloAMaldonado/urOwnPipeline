@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import  React, { useEffect } from 'react'
 
 const InputFilter = ({ input, setInput, setFilteredList, array }) => {
     const handleFilterChange = (event) => {
@@ -19,7 +19,7 @@ const InputFilter = ({ input, setInput, setFilteredList, array }) => {
 
     useEffect(()=> {
         setFilteredList(array)
-    }, [array])
+    }, [array, setFilteredList])
     
     return (
         <>

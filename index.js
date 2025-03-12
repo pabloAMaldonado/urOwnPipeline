@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const { exec } = require('child_process')
 const app = express()
 
 const Number = require('./src/model.js')
@@ -15,8 +16,6 @@ const url = process.env.MONGODB_URI
 mongoose.set('strictQuery',false)
 
 mongoose.connect(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   serverSelectionTimeoutMS: 30000
 })
   .then(() => console.log('Connected to MongoDB'))
@@ -25,7 +24,7 @@ mongoose.connect(url, {
 const date = new Date()
 
 morgan.token('body', (req) => JSON.stringify(req.body))
-app.use(express.static('dist'))
+app.use(express.static('client/dist'))
 app.use(express.json())
 app.use(morgan(':method :url :status :response-time ms :body'))
 app.use(cors())

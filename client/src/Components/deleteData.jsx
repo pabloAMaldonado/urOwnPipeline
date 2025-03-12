@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const baseUrl = 'api/persons/'
 
-const useDeleteData = async (id) => {
+const UseDeleteData = async (id) => {
     try {
         const response = await axios.delete(baseUrl+id)
 
@@ -17,4 +17,4 @@ const useDeleteData = async (id) => {
     }
 }
 
-export default useDeleteData
+export default UseDeleteData

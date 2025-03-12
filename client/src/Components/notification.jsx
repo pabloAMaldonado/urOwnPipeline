@@ -26,7 +26,7 @@ const Notification = ({ message, status }) => {
 
         const timer = setTimeout(() => {
             setShowComponent(false)
-        }, 2000)
+        }, 10000)
 
         return () => clearTimeout(timer)
     }, [message, status])

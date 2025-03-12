@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react'
 import axios from 'axios'
-import useDeleteData from './deleteData'
+import UseDeleteData from './deleteData'
 import Notification from './notification'
 
 const baseUrl = 'api/persons'
@@ -12,7 +12,7 @@ const handleDelete = async (id, setDb, array, setMessage, setStatus) => {
   if (!window.confirm(`Are you sure you want to delete ${person.name} number ?`)) { return }
 
   try {
-    const response = await  useDeleteData(id)
+    const response = await  UseDeleteData(id)
 
     if (response.status === 200) {
       
@@ -51,7 +51,7 @@ const PhoneBookList = ({ initialList, state, error, setDb }) => {
     return <p>Loading...</p>
   }
 
-  if (initialList.length === 0) {
+  if (state && initialList && initialList.length === 0) {
     return <p>No info...</p>
   }
 
@@ -64,7 +64,7 @@ const PhoneBookList = ({ initialList, state, error, setDb }) => {
         <>
           <h2>List</h2>
             
-          {initialList.map((item, index) => (
+          {Array.isArray(initialList) && initialList.map((item, index) => (
             <p key={index}>
               {item.name} - {item.number}
               <button onClick={() => handleDelete(item._id, setDb, initialList, setMessage, setStatus)}>
