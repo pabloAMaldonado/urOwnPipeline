@@ -22,7 +22,9 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          pnpm install
+          pnpm --filter client install
       - name: Build client
         run: pnpm build
       - name: Check style
